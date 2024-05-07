@@ -5,6 +5,12 @@ let ctx = canvas.getContext("2d");
 
 //region CONSTANTES
 const ANGLE = 1 / (2 * Math.sqrt(0.75));
+const CELLSIZE = 100;
+//endregion
+
+//region SPRITES
+const S_GROUND = new Image();
+S_GROUND.src = "./images/ground.png";
 //endregion
 
 //region VARIABLES
@@ -44,25 +50,22 @@ setInterval(()=> {
     ctx.fillStyle = "red";
     ctx.strokeStyle = "red";
 
-    // dots
-    for (let y = 0; y < 10; y++) {
-        for (let x = 0; x < 10; x++) {
-            let posX = x * 20;
-            let posY = y * 20;
+    //ground
+    for (let y = 0; y < 50; y++) {
+        for (let x = 0; x < 50; x++) {
+            let posX = x * CELLSIZE;
+            let posY = y * CELLSIZE;
             let sposX = worldToScreenX(posX, posY);
             let sposY = worldToScreenY(posX, posY);
-            sposX += 300;
-            sposY += 300;
-            ctx.fillRect(sposX - 5, sposY - 5, 10, 10);
+            sposX += canvas.width / 2;
+            ctx.drawImage(S_GROUND, sposX - CELLSIZE, sposY - CELLSIZE * ANGLE, CELLSIZE * 2 + 2, CELLSIZE * ANGLE * 2 + 2);
         }
     }
     // dot
-    ctx.fillStyle = "green";
     let sdotX = worldToScreenX(dotX, dotY);
     let sdotY = worldToScreenY(dotX, dotY);
-    sdotX += 300;
-    sdotY += 300;
-    ctx.fillRect(sdotX - 5, sdotY - 5, 10, 10);
+    sdotX += canvas.width / 2;
+    ctx.fillRect(sdotX - 10, sdotY - 10, 20, 20);
     //endregion
 }, 0);
 
