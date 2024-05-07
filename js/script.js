@@ -40,8 +40,13 @@ setInterval(()=> {
     canvas.height = 1000;
 
     //region MOVE
-    dotX += directionX;
-    dotY += directionY;
+    let dirDistance = Math.sqrt(directionX ** 2 + directionY ** 2);
+    if (dirDistance === 0) {
+        dirDistance = 1;
+    }
+    dotX += directionX / dirDistance;
+    dotY += directionY / dirDistance;
+    console.log(dotX + ":" + dotY);
     //endregion
 
     //region DRAW
@@ -51,8 +56,8 @@ setInterval(()=> {
     ctx.strokeStyle = "red";
 
     //ground
-    for (let y = 0; y < 50; y++) {
-        for (let x = 0; x < 50; x++) {
+    for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 10; x++) {
             let posX = x * CELLSIZE;
             let posY = y * CELLSIZE;
             let sposX = worldToScreenX(posX, posY);
