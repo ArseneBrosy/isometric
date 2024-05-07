@@ -11,6 +11,15 @@ const CELLSIZE = 100;
 //region SPRITES
 const S_GROUND = new Image();
 S_GROUND.src = "./images/ground.png";
+
+const S_PLAYER_NE = new Image();
+S_PLAYER_NE.src = "./images/PlayerNE.png";
+const S_PLAYER_NW = new Image();
+S_PLAYER_NW.src = "./images/PlayerNW.png";
+const S_PLAYER_SE = new Image();
+S_PLAYER_SE.src = "./images/PlayerSE.png";
+const S_PLAYER_SW = new Image();
+S_PLAYER_SW.src = "./images/PlayerSW.png";
 //endregion
 
 //region VARIABLES
@@ -18,11 +27,13 @@ S_GROUND.src = "./images/ground.png";
 let mouseX = 0;
 let mouseY = 0;
 
-let dotX = 10;
-let dotY = 10;
+let dotX = 500;
+let dotY = 500;
 
 let directionX = 0;
 let directionY = 0;
+
+let sprite = S_PLAYER_SE;
 //endregion
 
 //region FUNCTIONS
@@ -46,7 +57,6 @@ setInterval(()=> {
     }
     dotX += directionX / dirDistance;
     dotY += directionY / dirDistance;
-    console.log(dotX + ":" + dotY);
     //endregion
 
     //region DRAW
@@ -56,8 +66,10 @@ setInterval(()=> {
     ctx.strokeStyle = "red";
 
     //ground
-    for (let y = 0; y < 10; y++) {
-        for (let x = 0; x < 10; x++) {
+    for (let row = 0; row < 20; row++) {
+        for (let column = 0 ; column <= row; column++) {
+            let x = row - column;
+            let y = row - x;
             let posX = x * CELLSIZE;
             let posY = y * CELLSIZE;
             let sposX = worldToScreenX(posX, posY);
@@ -70,7 +82,7 @@ setInterval(()=> {
     let sdotX = worldToScreenX(dotX, dotY);
     let sdotY = worldToScreenY(dotX, dotY);
     sdotX += canvas.width / 2;
-    ctx.fillRect(sdotX - 10, sdotY - 10, 20, 20);
+    ctx.drawImage(sprite, sdotX - 50, sdotY - 50 * 1.156, 100, 100 * 1.156);
     //endregion
 }, 0);
 
@@ -82,15 +94,19 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("keydown", (e) => {
     if (e.code === "KeyW") {
         directionY = -1;
+        sprite = S_PLAYER_NE;
     }
     if (e.code === "KeyS") {
         directionY = 1;
+        sprite = S_PLAYER_SW;
     }
     if (e.code === "KeyA") {
         directionX = -1;
+        sprite = S_PLAYER_NW;
     }
     if (e.code === "KeyD") {
         directionX = 1;
+        sprite = S_PLAYER_SE;
     }
 });
 
